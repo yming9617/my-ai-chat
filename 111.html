@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>家庭AI登录</title>
+<style>
+body {
+    background: #f5f7fa;
+    font-family: 微软雅黑;
+    padding: 30px;
+}
+.box {
+    max-width: 360px;
+    margin: 80px auto;
+    background: white;
+    padding: 35px;
+    border-radius: 18px;
+}
+h2 { text-align: center; margin: 0 0 25px; }
+input {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 0 15px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+button {
+    width: 100%;
+    height: 50px;
+    background: #07c160;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 17px;
+}
+</style>
+</head>
+<body>
+<div class="box">
+    <h2>家庭AI登录</h2>
+    <input type="password" id="pwd" placeholder="请输入密码">
+    <button onclick="login()">登录进入</button>
+</div>
+
+<script>
+const url = "http://192.168.1.104:11435";
+const pwd = "114207";
+
+function login() {
+    if (document.getElementById("pwd").value === pwd) {
+        window.open(url, "_blank");
+    } else {
+        alert("密码错误");
+    }
+}
+</script>
+</body>
+</html>
