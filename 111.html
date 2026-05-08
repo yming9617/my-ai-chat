@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家庭AI助手</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f5f7fa;
+}
+.box {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+#status {
+    color: green;
+    text-align: center;
+    margin: 20px 0;
+}
+</style>
+</head>
+<body>
+<div class="box">
+    <h1>家庭AI助手</h1>
+    <div id="status">正在连接服务器...</div>
+</div>
+
+<script>
+const apiUrl = "http://192.168.1.104:11434/api/tags";
+
+fetch(apiUrl)
+    .then(response => {
+        if (response.ok) {
+            document.getElementById("status").textContent = "✅ 连接成功！Ollama 服务正在运行";
+            document.getElementById("status").style.color = "green";
+        } else {
+            document.getElementById("status").textContent = "❌ 连接失败，请检查服务状态";
+            document.getElementById("status").style.color = "red";
+        }
+    })
+    .catch(error => {
+        document.getElementById("status").textContent = "❌ 连接失败，请检查网络";
+        document.getElementById("status").style.color = "red";
+    });
+</script>
+</body>
+</html>
