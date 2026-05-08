@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent 局域网访问</title>
+    <style>
+        body { background: #f5f7fa; font-family: "Microsoft YaHei", sans-serif; padding: 20px; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { width: 100%; max-width: 360px; background: #fff; padding: 40px 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); box-sizing: border-box; }
+        h2 { text-align: center; margin: 0 0 30px; color: #333; font-size: 22px; }
+        input { width: 100%; height: 55px; border: 1px solid #e0e0e0; border-radius: 12px; padding: 0 15px; font-size: 16px; margin-bottom: 25px; box-sizing: border-box; outline: none; transition: border-color 0.3s; }
+        input:focus { border-color: #07c160; }
+        button { width: 100%; height: 55px; background: #07c160; color: #fff; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+        button:active { background: #06ae56; }
+    </style>
+</head>
+<body>
+<div class="box">
+    <h2>AI 助手入口</h2>
+    <input type="password" id="pwd" placeholder="请输入访问密码" onkeydown="if(event.keyCode==13) login()">
+    <button onclick="login()">立即进入</button>
+</div>
+
+<script>
+    // 【关键修改】请根据你 Dify 实际的访问端口修改，通常是 5001
+    // 如果你在本机浏览器访问是 http://localhost:5001，那么这里就写下面的地址
+    const DIFY_URL = "http://192.168.1.104:5001"; 
+    const ACCESS_PWD = "114207"; // [cite: 2]
+
+    function login(){
+        const inputPwd = document.getElementById("pwd").value.trim();
+        
+        if(inputPwd === ACCESS_PWD) {
+            // 在微信内置浏览器中，直接跳转 location.href 兼容性更好
+            window.location.href = DIFY_URL; 
+        } else {
+            alert("密码错误，请重新输入");
+            document.getElementById("pwd").value = "";
+        }
+    }
+</script>
+</body>
+</html>
