@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI授权登录</title>
+<style>
+body{background:#f5f7fa;font-family:微软雅黑;padding:30px 20px;margin:0;}
+.box{max-width:360px;margin:80px auto;background:#fff;padding:35px;border-radius:18px;}
+h2{text-align:center;margin:0 0 25px 0;color:#222;}
+input{width:100%;height:50px;border:1px solid #eee;border-radius:10px;padding:0 15px;font-size:16px;margin-bottom:20px;}
+button{width:100%;height:50px;background:#07c160;color:#fff;border:none;border-radius:10px;font-size:17px;}
+.tip{text-align:center;margin-top:20px;font-size:13px;color:#999;}
+.wait{color:#07c160;text-align:center;display:none;margin-top:15px;}
+</style>
+</head>
+<body>
+<div class="box">
+    <h2>管理员授权验证</h2>
+    <input type="password" id="pwd" placeholder="请输入密码">
+    <button onclick="submitPwd()">提交登录</button>
+    <div class="tip">需管理员授权后方可进入</div>
+    <div class="wait" id="waitTip">✅ 授权成功，正在进入...</div>
+</div>
+
+<script>
+// ================== 配置 ==================
+const USER_PWD = "114207";     // 同学密码
+const ADMIN_PWD = "889966";   // 你授权密码
+const AI_URL = "https://109c033903d90c1f-60-20-253-159.serveousercontent.com/chat/DjjodCnbywxurDGW";
+const GIST_URL = "https://gist.githubusercontent.com/xxx/xxx/raw/allow.txt";
+// ==========================================
+
+let authInterval = null;
+
+// 提交密码
+function submitPwd() {
+    let val = document.getElementById("pwd").value.trim();
+    if (val === USER_PWD) {
+        alert("已提交，请等待管理员授权");
+        startWait();
+    } else if (val === ADMIN_PWD) {
+        allow();
+    } else {
+        alert("密码错误");
+    }
+}
+
+// 开始等待授权
+function startWait() {
+    if (authInterval) clearInterval(authInterval);
+    authInterval = setInterval(() => {
+        fetch("https://api.allorigins.win/raw?url=https://gist.githubusercontent.com/anonymous/501aef6c1f69216d4507f85391c14554/raw")
+        .then(res => res.text())
+        .then(text => {
+            if (text.includes("allow=1")) {
+                clearInterval(authInterval);
+                document.getElementById("waitTip").style.display = "block";
+                setTimeout(() => {
+                    window.open(AI_URL, "_blank");
+                    resetAuth();
+                }, 800);
+            }
+        });
+    }, 2000);
+}
+
+// 管理员授权
+function allow() {
+    fetch("https://gist.githubusercontent.com/anonymous/501aef6c1f69216d4507f85391c14554/raw", {
+        method: 'PUT',
+        body: "allow=1"
+    }).then(() => {
+        alert("授权成功！对方已进入");
+    });
+}
+
+// 重置授权
+function resetAuth() {
+    fetch("https://gist.githubusercontent.com/anonymous/501aef6c1f69216d4507f85391c14554/raw", {
+        method: 'PUT',
+        body: "allow=0"
+    });
+}
+</script>
+</body>
+</html>
